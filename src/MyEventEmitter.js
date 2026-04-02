@@ -49,7 +49,7 @@ class MyEventEmitter {
     for (const listener of listeners) {
       listener.fn(...args);
 
-      if (listener.once) {
+      if (this.events[event] && listener.once) {
         this.events[event] = this.events[event].filter(
           (item) => item !== listener,
         );
