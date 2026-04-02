@@ -40,13 +40,11 @@ class MyEventEmitter {
   }
 
   emit(event, ...args) {
-    const listeners = (this.events[event] || []).slice();
-
-    if (listeners.length === 0) {
+    if (!this.events[event] || this.events[event].length === 0) {
       return;
     }
 
-    for (const listener of listeners) {
+    for (const listener of this.events[event]) {
       listener.fn(...args);
 
       if (this.events[event] && listener.once) {
@@ -59,6 +57,20 @@ class MyEventEmitter {
         delete this.events[event];
       }
     }
+
+    // for (const listener of listeners) {
+    //   listener.fn(...args);
+
+    //   if (this.events[event] && listener.once) {
+    //     this.events[event] = this.events[event].filter(
+    //       (item) => item !== listener,
+    //     );
+    //   }
+
+    //   if (this.events[event] && this.events[event].length === 0) {
+    //     delete this.events[event];
+    //   }
+    // }
   }
 
   prependListener(event, listener) {
